@@ -4,12 +4,19 @@
         <client_script><![CDATA[function($rootScope,$scope) {
 	/* widget controller */
 	var c = this;
+	
 	c.selectItem = function(idx) {
 		var id = c.data.notes[idx].sys_id;
 		console.log('Note ID: ' + id);
 		$rootScope.noteID = id;
 		$rootScope.$emit('selectNote', id);
 	}
+	
+	$rootScope.$on('updateList', function() {
+		c.server.refresh()
+	});
+	
+	
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -29,6 +36,7 @@
         <script><![CDATA[(function() {
 	//create an array to populate with notes
 	data.notes = [];
+	
 	var noteGR = new GlideRecord('x_snc_createnotes_note');
 	noteGR.addQuery('user', gs.getUser().getID());
 	noteGR.orderByDesc('sys_created_on');
@@ -42,20 +50,23 @@
 		//push the populated obj into the array
 		data.notes.push(noteObj);
 	}
+	
+	
+	
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-08-20 13:49:43</sys_created_on>
         <sys_id>47dc7012074e30103ceafea89c1ed04e</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>Notes List</sys_name>
         <sys_package display_value="CreateNotes" source="x_snc_createnotes">df5fd9a5090232007f44e1046c8ff69f</sys_package>
         <sys_policy/>
         <sys_scope display_value="CreateNotes">df5fd9a5090232007f44e1046c8ff69f</sys_scope>
         <sys_update_name>sp_widget_47dc7012074e30103ceafea89c1ed04e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-08-20 15:12:42</sys_updated_on>
+        <sys_updated_on>2021-08-20 20:00:22</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">
